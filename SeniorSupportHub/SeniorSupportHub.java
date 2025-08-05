@@ -52,13 +52,15 @@ public class SeniorSupportHub {
             System.out.println("1. List Seniors");
             System.out.println("2. Add Senior");
             System.out.println("3. Delete Senior");
-            System.out.println("4. Back");
+            System.out.println("4. Edit Volunteer");
+            System.out.println("5. Back");
             int choice = readInt("Choice: ");
             switch (choice) {
                 case 1: listSeniors(); break;
                 case 2: addSenior(); break;
                 case 3: deleteSenior(); break;
-                case 4: back = true; break;
+                case 4: editSenior(); break;
+                case 5: back = true; break;
                 default: System.out.println("Invalid choice");
             }
         }
@@ -72,7 +74,8 @@ public class SeniorSupportHub {
         System.out.println("Seniors:");
         for (int i = 0; i < seniors.size(); i++) {
             Senior s = seniors.get(i);
-            System.out.printf("%d: %s, Age: %d, Email: %s\n", i, s.getName(), s.getAge(), s.getEmail());
+            System.out.printf("Name: %-20s | Age: %2d | Phone: %-12s | Email: %-25s\n", s.getName(), s.getAge(), s.getNumber(), s.getEmail());
+
         }
     }
 
@@ -100,6 +103,34 @@ public class SeniorSupportHub {
         }
     }
 
+    private static void editSenior() {
+        listSeniors();
+        if (seniors.isEmpty()) 
+            return;
+        int idx = readInt("Enter index to edit: ");
+        
+        if (idx >= 0 && idx < seniors.size()) {
+            Senior s = seniors.get(idx);
+            System.out.println("Editing senior:");
+            String name = readString("Name (" + s.getName() + "): ");
+            String number = readString("Number (" + s.getNumber() + "): ");
+            String email = readString("Email (" + s.getEmail() + "): ");
+            String bio = readString("Bio (" + s.getBio() + "): ");
+            String ageStr = readString("Age (" + s.getAge() + "): ");
+
+            if (!name.isEmpty()) s.setName(name);
+            if (!number.isEmpty()) s.setNumber(number);
+            if (!email.isEmpty()) s.setEmail(email);
+            if (!bio.isEmpty()) s.setBio(bio);
+            if (!ageStr.isEmpty()) s.setAge(Integer.parseInt(ageStr));
+
+            System.out.println("Senior updated.");
+        } else {
+            System.out.println("Invalid index.");
+        }
+    }
+
+
     //====== Volunteers ======
     private static void manageVolunteers() {
         boolean back = false;
@@ -108,13 +139,15 @@ public class SeniorSupportHub {
             System.out.println("1. List Volunteers");
             System.out.println("2. Add Volunteer");
             System.out.println("3. Delete Volunteer");
-            System.out.println("4. Back");
+            System.out.println("4. Edit Volunteer");
+            System.out.println("5. Back");
             int choice = readInt("Choice: ");
             switch (choice) {
                 case 1: listVolunteers(); break;
                 case 2: addVolunteer(); break;
                 case 3: deleteVolunteer(); break;
-                case 4: back = true; break;
+                case 4: editVolunteer(); break;
+                case 5: back = true; break;
                 default: System.out.println("Invalid choice");
             }
         }
@@ -128,7 +161,8 @@ public class SeniorSupportHub {
         System.out.println("Volunteers:");
         for (int i = 0; i < volunteers.size(); i++) {
             Volunteer v = volunteers.get(i);
-            System.out.printf("%d: %s, Email: %s, Days Available: %s\n", i, v.getName(), v.getEmail(), String.join(", ", v.getDaysAvailable()));
+            System.out.printf("Name: %-20s | Age: %2d | Phone: %-12s | Email: %-25s\n", v.getName(), v.getAge(), v.getNumber(), v.getEmail());
+
         }
     }
 
@@ -157,6 +191,38 @@ public class SeniorSupportHub {
         }
     }
 
+    private static void editVolunteer() {
+        listVolunteers();
+        if (volunteers.isEmpty()) 
+            return;
+        int idx = readInt("Enter index to edit: ");
+        
+        if (idx >= 0 && idx < volunteers.size()) {
+            Volunteer v = volunteers.get(idx);
+            System.out.println("Editing volunteer:");
+
+            String name = readString("Name (" + v.getName() + "): ");
+            String number = readString("Number (" + v.getNumber() + "): ");
+            String email = readString("Email (" + v.getEmail() + "): ");
+            String bio = readString("Bio (" + v.getBio() + "): ");
+            String daysStr = readString("Days Available (" + String.join(", ", v.getDaysAvailable()) + "): ");
+
+            if (!name.isEmpty()) v.setName(name);
+            if (!number.isEmpty()) v.setNumber(number);
+            if (!email.isEmpty()) v.setEmail(email);
+            if (!bio.isEmpty()) v.setBio(bio);
+            if (!daysStr.isEmpty()) {
+                String[] daysAvailable = daysStr.split("\\s*,\\s*");
+                v.setDaysAvailable(daysAvailable);
+            }
+
+            System.out.println("Volunteer updated.");
+        } else {
+            System.out.println("Invalid index.");
+        }
+    }
+
+
     //====== HubTasks ======
     private static void manageTasks() {
         boolean back = false;
@@ -165,13 +231,15 @@ public class SeniorSupportHub {
             System.out.println("1. List HubTasks");
             System.out.println("2. Add HubTask");
             System.out.println("3. Delete HubTask");
-            System.out.println("4. Back");
+            System.out.println("4. Edit HubTask");
+            System.out.println("5. Back");
             int choice = readInt("Choice: ");
             switch (choice) {
                 case 1: listTasks(); break;
                 case 2: addTask(); break;
                 case 3: deleteTask(); break;
-                case 4: back = true; break;
+                case 4: editTask(); break;
+                case 5: back = true; break;
                 default: System.out.println("Invalid choice");
             }
         }
@@ -230,7 +298,9 @@ public class SeniorSupportHub {
 
     private static void deleteTask() {
         listTasks();
-        if (tasks.isEmpty()) return;
+        if (tasks.isEmpty()) 
+        
+        return;
         int idx = readInt("Enter index to delete: ");
         if (idx >= 0 && idx < tasks.size()) {
             tasks.remove(idx);
@@ -239,6 +309,55 @@ public class SeniorSupportHub {
             System.out.println("Invalid index.");
         }
     }
+
+    private static void editTask() {
+    listTasks();
+    if (tasks.isEmpty()) 
+        return;
+    int idx = readInt("Enter index to edit: ");
+    
+    if (idx >= 0 && idx < tasks.size()) {
+        HubTask t = tasks.get(idx);
+        System.out.println("Editing HubTask:");
+
+        String desc = readString("Description (" + t.getDescription() + "): ");
+        String loc = readString("Location (" + t.getLocation() + "): ");
+        String day = readString("Day (" + t.getDay() + "): ");
+        String time = readString("Time (" + t.getTime() + "): ");
+
+        if (!desc.isEmpty()) t.setDescription(desc);
+        if (!loc.isEmpty()) t.setLocation(loc);
+        if (!day.isEmpty()) t.setDay(day);
+        if (!time.isEmpty()) t.setTime(time);
+
+        System.out.println("Change to a differnt senior? (y/n)");
+        if (readString("> ").equalsIgnoreCase("y")) {
+            listSeniors();
+            int seniorIdx = readInt("Select Senior index: ");
+            if (seniorIdx >= 0 && seniorIdx < seniors.size()) {
+                t.setSenior(seniors.get(seniorIdx));
+            } else {
+                System.out.println("Invalid senior index. Skipping update.");
+            }
+        }
+
+        System.out.println("Do you want to change the volunteer? (y/n)");
+        if (readString("> ").equalsIgnoreCase("y")) {
+            listVolunteers();
+            int volIdx = readInt("Select Volunteer index: ");
+            if (volIdx >= 0 && volIdx < volunteers.size()) {
+                t.setVolunteer(volunteers.get(volIdx));
+            } else {
+                System.out.println("Invalid volunteer index. Update Skipped");
+            }
+        }
+
+        System.out.println("Task updated.");
+    } else {
+        System.out.println("Invalid index.");
+    }
+}
+
 
     //====== Load and Save ======
 
@@ -271,4 +390,16 @@ public class SeniorSupportHub {
         System.out.print(prompt);
         return scanner.nextLine();
     }
+
+    private static boolean isValidDay(String day) {
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        for (String d : days) {
+            if (d.equalsIgnoreCase(day.trim())) return true;
+        }
+        return false;
 }
+
+ 
+}
+
+
